@@ -7,6 +7,7 @@ const Navbar = () => {
   const menuOptions = [
     { name: "Home", link: "/" },
     { name: "Products", link: "/products" },
+    { name: "Architecture", link: "/architecture" },
     // { name: "My Cart", link: "/cart" },
   ];
 
@@ -52,19 +53,6 @@ const Navbar = () => {
             })}
           </ul>
         </nav>
-
-        {/* Cart */}
-        <Link
-          to="/cart"
-          className="relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition"
-        >
-          🛒
-
-          {/* Cart Count */}
-          <span className="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 text-xs bg-red-500 text-white rounded-full">
-            0
-          </span>
-        </Link>
       </div>
     </header>
   );

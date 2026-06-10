@@ -1,127 +1,103 @@
-# leegality-assessment
-
-A modern React application built with Vite.
-
-## 🚀 Features
-
-- ⚡ **Vite** - Fast build tool and development server
-- ⚛️ **React 18** - Latest React with modern hooks
-- 🎨 **Tailwind** - Styling framework
-- 🛣️ **React Router** - Client-side routing
-
-- 📦 **Additional Packages**: axios, react-icons
-
-## 📋 Prerequisites
-
-- Node.js (v16 or higher)
-- npm or yarn
-
-## 🛠️ Installation
-
-1. Navigate to the project directory:
-   ```bash
-   cd leegality-assessment
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-## 🏃‍♂️ Running the Application
-
-### Development Mode
+# 🛍️ Leegality Store 
+ 
+A modern ecommerce frontend built with React, React Router, Axios and Tailwind CSS.
+ 
+🌐 Live Demo: https://leegality-assessment.web.app/ 
+ 
+---
+ 
+## ✨ Features 
+ 
+- Product Listing
+- Product Details Page
+- Search Products
+- Category Filtering
+- Sorting
+- Pagination
+- URL State Persistence
+- Responsive Design
+- Loading States
+ 
+---
+ 
+## 📸 Screenshots 
+ 
+### Home Page 
+![Home](./screenshots/home.png)
+ 
+### Products Page 
+![Products](./screenshots/products.png)
+ 
+### Product Details 
+![Product Details](./screenshots/product-details.png)
+ 
+### Architecture Page 
+![Architecture](./screenshots/architecture.png)
+ 
+---
+ 
+## 🏗️ Tech Stack 
+ 
+- React
+- React Router
+- Axios
+- Tailwind CSS
+- DummyJSON API
+- Firebase Hosting
+ 
+---
+ 
+## 📂 Project Structure 
+ 
+```
+src
+├── api
+├── components
+├── hooks
+├── pages
+├── store
+├── utils
+├── App.jsx
+└── main.jsx
+```
+ 
+---
+ 
+## ⚙️ Engineering Decisions 
+ 
+- API-driven Pagination
+- API-driven Search
+- API-driven Filtering
+- URL-based State Management
+- Reusable Component Architecture
+- Centralized API Layer
+ 
+---
+ 
+## 🚀 Future Enhancements 
+ 
+- Authentication
+- Wishlist
+- Checkout & Payments
+- Order Management
+- Admin Dashboard
+- Product Recommendations
+- Analytics Dashboard
+ 
+---
+ 
+## 🛠️ Installation 
+ 
 ```bash
+npm install
 npm run dev
 ```
-The app will be available at `http://localhost:5173`
-
-### Production Build
-```bash
-npm run build
-```
-
-### Preview Production Build
-```bash
-npm run preview
-```
-
-## 📁 Project Structure
-
-```
-leegality-assessment/
-├── public/
-├── src/
-│   ├── components/        # Reusable components
-│   ├── pages/            # Page components
-│   ├── hooks/            # Custom React hooks
-│   ├── store/            # State management
-│   ├── utils/            # Utility functions
-│   │   └── axiosInstance.js # Axios configuration
-│   ├── assets/          # Static assets
-│   ├── App.jsx           # Main App component
-│   └── main.jsx           # Entry point
-├── vite.config.js        # Vite configuration
-└── package.json
-```
-
-## 🎨 Styling
-
-This project uses **Tailwind** for styling:
-
-- Classes are available globally
-- Configuration in `vite.config.js`
-- Customize in `src/index.css`
-
-## 🌐 API Integration
-
-Axios is pre-configured in `src/utils/axiosInstance.js`:
-
-```javascript
-import { api } from './utils/axiosInstance';
-
-// GET request
-const data = await api.get('/users');
-
-// POST request
-const response = await api.post('/users', { name: 'John' });
-```
-
-### Environment Variables
-Create a `.env` file:
-```
-VITE_API_URL=https://your-api-url.com
-```
-
-## 🔧 Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint (if configured)
-
-## 🚀 Deployment
-
-### Vercel
-```bash
-npm install -g vercel
-vercel --prod
-```
-
-### Netlify
-```bash
-npm run build
-# Upload dist/ folder to Netlify
-```
-
-## 🎯 Next Steps
-
-1. **Add Components**: Start building your app components
-2. **Set up Routing**: Add more routes in main.jsx
-3. **Configure API**: Set up your API endpoints if using Axios
-4. **Add State Management**: Implement Redux/Zustand if needed
-5. **Deploy**: Deploy to your preferred hosting service
-
+ 
 ---
-
-Built using React + Vite
+ 
+## 👨‍💻 Author 
+ 
+Harsh Gupta
+Frontend Engineer
+ 
+Built for the Leegality Frontend Engineering Assessment.

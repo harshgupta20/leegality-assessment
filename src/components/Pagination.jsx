@@ -188,7 +188,7 @@ const Pagination = ({
                 rounded-xl
                 transition
                 ${currentPage === page
-                                    ? "bg-blue-600 text-white"
+                                    ? "bg-purple-600 text-white"
                                     : "border border-gray-300 text-gray-500 hover:bg-gray-100"
                                 }
               `}

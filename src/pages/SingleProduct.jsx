@@ -101,7 +101,7 @@ const SingleProduct = () => {
                                         key={index}
                                         onClick={() => setSelectedImage(img)}
                                         className={`w-20 h-20 rounded-xl overflow-hidden border-2 ${selectedImage === img
-                                            ? "border-black"
+                                            ? "border-purple-600"
                                             : "border-gray-200"
                                             }`}
                                     >
@@ -119,7 +119,7 @@ const SingleProduct = () => {
                     {/* Right Side */}
                     <div className="flex flex-col justify-center">
                         {/* Category */}
-                        <span className="inline-block w-fit px-3 py-1 bg-black text-white text-sm rounded-full">
+                        <span className="inline-block w-fit px-3 py-1 bg-purple-600 text-white text-sm rounded-full">
                             {productDetails.category}
                         </span>
 
@@ -198,12 +198,12 @@ const SingleProduct = () => {
 
                         {/* Buttons */}
                         <div className="grid grid-cols-2 gap-4 mt-8">
-                            <button className="flex items-center justify-center gap-2 bg-black text-white py-4 rounded-2xl font-medium hover:opacity-90 transition">
+                            <button className="flex items-center justify-center gap-2 bg-purple-600 text-white py-4 rounded-2xl font-medium hover:opacity-90 transition">
                                 <FiShoppingCart />
                                 Add To Cart
                             </button>
 
-                            <button className="border border-black py-4 rounded-2xl font-medium hover:bg-black hover:text-white transition">
+                            <button className="border border-purple-600 py-4 rounded-2xl font-medium hover:bg-purple-600 hover:text-white transition">
                                 Buy Now
                             </button>
                         </div>
@@ -307,7 +307,7 @@ const SingleProduct = () => {
                             >
                                 <div className="flex items-start gap-4">
                                     {/* Avatar */}
-                                    <div className="h-12 w-12 rounded-full bg-black text-white flex items-center justify-center font-semibold shrink-0">
+                                    <div className="h-12 w-12 rounded-full bg-purple-600 text-white flex items-center justify-center font-semibold shrink-0">
                                         {review.reviewerName.charAt(0)}
                                     </div>
 

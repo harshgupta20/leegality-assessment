@@ -57,7 +57,7 @@ const Architecture = () => {
             {/* Hero */}
             <section className="max-w-7xl mx-auto px-6 py-20">
                 <div className="text-center">
-                    <span className="px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
+                    <span className="px-4 py-2 rounded-full bg-purple-100 text-purple-700 text-sm font-medium">
                         System Design & Engineering Decisions
                     </span>
 
@@ -82,7 +82,7 @@ const Architecture = () => {
                     </h2>
 
                     <div className="flex flex-col items-center text-center gap-4 font-mono text-sm">
-                        <div className="border rounded-xl p-4 w-64 bg-blue-50">
+                        <div className="border rounded-xl p-4 w-64 bg-purple-50">
                             React UI
                         </div>
 
@@ -169,7 +169,7 @@ const Architecture = () => {
                             {futureFeatures.map((feature) => (
                                 <div
                                     key={feature}
-                                    className="p-3 rounded-xl bg-blue-50 border border-blue-100"
+                                    className="p-3 rounded-xl bg-purple-50 border border-purple-100"
                                 >
                                     🚀 {feature}
                                 </div>
@@ -280,7 +280,7 @@ const Architecture = () => {
                     </pre>
 
                     <div className="mt-8 grid md:grid-cols-2 gap-6">
-                        <div className="p-5 rounded-2xl bg-blue-50 border border-blue-100">
+                        <div className="p-5 rounded-2xl bg-purple-50 border border-purple-100">
                             <h3 className="font-semibold mb-3">
                                 Architectural Goal
                             </h3>
@@ -314,12 +314,12 @@ const Architecture = () => {
 
             {/* Summary */}
             <section className="max-w-7xl mx-auto px-6 py-20">
-                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-12 text-white">
+                <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-3xl p-12 text-white">
                     <h2 className="text-4xl font-bold">
                         Key Takeaway
                     </h2>
 
-                    <p className="mt-6 text-lg text-blue-100 max-w-4xl">
+                    <p className="mt-6 text-lg text-purple-100 max-w-4xl">
                         This project was intentionally designed with
                         scalability in mind. While the current version
                         leverages DummyJSON as a backend source, the

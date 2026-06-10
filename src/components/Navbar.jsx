@@ -41,7 +41,7 @@ const Navbar = () => {
                       duration-200
                       ${
                         isActive
-                          ? "bg-blue-600 text-white"
+                          ? "bg-purple-600 text-white"
                           : "text-gray-600 hover:bg-gray-100 hover:text-black"
                       }
                     `}

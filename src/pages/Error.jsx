@@ -8,7 +8,7 @@ const Error = () => {
     <div className="min-h-[80vh] flex items-center justify-center px-6">
       <div className="max-w-2xl text-center">
         {/* Error Code */}
-        <h1 className="text-8xl font-black text-blue-600">
+        <h1 className="text-8xl font-black text-purple-600">
           404
         </h1>
 
@@ -44,10 +44,10 @@ const Error = () => {
               className="
                 px-6
                 py-3
-                bg-blue-600
+                bg-purple-600
                 text-white
                 rounded-xl
-                hover:bg-blue-700
+                hover:bg-purple-700
                 transition
               "
             >

@@ -63,7 +63,7 @@ const Home = () => {
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-6 py-24">
         <div className="text-center">
-          <span className="inline-block px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium">
+          <span className="inline-block px-4 py-2 rounded-full bg-purple-100 text-purple-700 text-sm font-medium">
             Frontend Engineer Assignment
           </span>
 
@@ -82,7 +82,7 @@ const Home = () => {
           <div className="mt-10 flex justify-center gap-4">
             <button
               onClick={() => navigate("/products")}
-              className="px-6 py-3 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition"
+              className="px-6 py-3 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-700 transition"
             >
               Explore Products
             </button>
@@ -196,7 +196,7 @@ const Home = () => {
             ))}
           </div>
 
-          <div className="mt-10 p-6 rounded-2xl bg-blue-50 border border-blue-100">
+          <div className="mt-10 p-6 rounded-2xl bg-purple-50 border border-purple-100">
             <h3 className="font-semibold text-lg">
               Product Thinking
             </h3>
@@ -216,19 +216,19 @@ const Home = () => {
 
       {/* CTA */}
       <section className="max-w-7xl mx-auto px-6 py-20">
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-12 text-center text-white">
+        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 rounded-3xl p-12 text-center text-white">
           <h2 className="text-4xl font-bold">
             Ready to Explore?
           </h2>
 
-          <p className="mt-4 text-blue-100 max-w-2xl mx-auto">
+          <p className="mt-4 text-purple-100 max-w-2xl mx-auto">
             Browse products, test filters, search products,
             and experience a scalable ecommerce frontend.
           </p>
 
           <button
             onClick={() => navigate("/products")}
-            className="mt-8 px-6 py-3 rounded-xl bg-white text-blue-600 font-semibold hover:bg-gray-100 transition"
+            className="mt-8 px-6 py-3 rounded-xl bg-white text-purple-600 font-semibold hover:bg-gray-100 transition"
           >
             Explore Products
           </button>

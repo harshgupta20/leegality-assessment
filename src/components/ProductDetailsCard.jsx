@@ -48,7 +48,7 @@ const ProductDetailsCard = ({
       <div className="relative bg-gray-50 p-8">
         {/* Discount Badge */}
         <div className="absolute top-4 left-4">
-          <span className="bg-black text-white text-xs px-3 py-1 rounded-full">
+          <span className="bg-purple-600 text-white text-xs px-3 py-1 rounded-full">
             {Math.round(productDiscount)}% OFF
           </span>
         </div>
@@ -59,7 +59,7 @@ const ProductDetailsCard = ({
             className={`text-xs px-3 py-1 rounded-full ${
               productStock > 10
                 ? "bg-green-100 text-green-700"
-                : "bg-orange-100 text-orange-700"
+                : "bg-purple-100 text-purple-700"
             }`}
           >
             {productStock > 10
@@ -128,7 +128,7 @@ const ProductDetailsCard = ({
               h-11
               w-11
               rounded-full
-              bg-black
+              bg-purple-600
               text-white
               flex
               items-center

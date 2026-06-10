@@ -28,7 +28,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/"
-                  className="hover:text-blue-600"
+                  className="hover:text-purple-600"
                 >
                   Home
                 </Link>
@@ -37,7 +37,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/products"
-                  className="hover:text-blue-600"
+                  className="hover:text-purple-600"
                 >
                   Products
                 </Link>
@@ -46,7 +46,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/architecture"
-                  className="hover:text-blue-600"
+                  className="hover:text-purple-600"
                 >
                   Architecture
                 </Link>
@@ -55,7 +55,7 @@ const Footer = () => {
               <li>
                 <Link
                   to="/cart"
-                  className="hover:text-blue-600"
+                  className="hover:text-purple-600"
                 >
                   Cart
                 </Link>

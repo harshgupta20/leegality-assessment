@@ -170,7 +170,7 @@ const Products = () => {
         <div className="max-w-7xl mx-auto px-4 py-8">
             {/* Header */}
             <div className="mb-8">
-                <h1 className="text-4xl font-bold">
+                <h1 className="text-4xl text-purple-400 font-bold">
                     Products
                 </h1>
 
@@ -215,7 +215,7 @@ const Products = () => {
             border-gray-200
             focus:outline-none
             focus:ring-2
-            focus:ring-blue-500
+            focus:ring-purple-500
           "
                 />
             </div>

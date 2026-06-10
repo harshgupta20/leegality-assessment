@@ -92,8 +92,7 @@ const Error = () => {
 
         {/* Footer Note */}
         <p className="mt-8 text-sm text-gray-400">
-          Error handling is an important part of
-          production-ready applications.
+          If you think this page should exist, please check the URL or contact support.
         </p>
       </div>
     </div>

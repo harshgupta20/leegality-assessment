@@ -1,29 +1,73 @@
-import React from 'react'
-import { Link } from 'react-router'
+import React from "react";
+import { Link, useLocation } from "react-router";
 
 const Navbar = () => {
+  const location = useLocation();
 
-    const menuOptions = [
-        { name: 'Home', link: '/' },
-        { name: 'Products', link: '/products' },
-        { name: 'My Cart', link: '/cart' },
-    ]
+  const menuOptions = [
+    { name: "Home", link: "/" },
+    { name: "Products", link: "/products" },
+    // { name: "My Cart", link: "/cart" },
+  ];
 
-    return (
-        <div className='w-full flex items-center justify-between p-4'>
-            <p>Leegality Shoppers Stop</p>
+  return (
+    <header className="w-full sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        {/* Logo */}
+        <Link
+          to="/"
+          className="text-xl font-bold tracking-tight"
+        >
+          🛍️ Leegality Store
+        </Link>
 
-            <input className='border border-gray-800 w-1/3 rounded-md py-1 px-2 outline-none' type="text" placeholder='Search...' name="search" id="" />
+        {/* Navigation */}
+        <nav>
+          <ul className="flex items-center gap-2">
+            {menuOptions.map((option) => {
+              const isActive =
+                location.pathname === option.link;
 
-            <ul className='flex space-x-4'>
-                {menuOptions.map((option, index) => (
-                    <li key={index}>
-                        <Link to={option.link}>{option.name}</Link>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    )
-}
+              return (
+                <li key={option.link}>
+                  <Link
+                    to={option.link}
+                    className={`
+                      px-4
+                      py-2
+                      rounded-xl
+                      transition-all
+                      duration-200
+                      ${
+                        isActive
+                          ? "bg-blue-600 text-white"
+                          : "text-gray-600 hover:bg-gray-100 hover:text-black"
+                      }
+                    `}
+                  >
+                    {option.name}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
 
-export default Navbar
+        {/* Cart */}
+        <Link
+          to="/cart"
+          className="relative flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition"
+        >
+          🛒
+
+          {/* Cart Count */}
+          <span className="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 text-xs bg-red-500 text-white rounded-full">
+            0
+          </span>
+        </Link>
+      </div>
+    </header>
+  );
+};
+
+export default Navbar;

@@ -6,29 +6,26 @@ export const getProducts = async ({
     skip = 0,
     category = '',
     search = '',
+    sortBy = '',
+    order = '',
 }) => {
     try {
         let url = 'https://dummyjson.com/products';
 
         if (search) {
             url = 'https://dummyjson.com/products/search';
-        }
-
-        if (category) {
+        } else if (category) {
             url = `https://dummyjson.com/products/category/${category}`;
         }
 
-        const params = {
-            limit,
-            skip,
-        };
-
-        if (search) {
-            params.q = search;
-        }
-
         const response = await api(url, {
-            params,
+            params: {
+                limit,
+                skip,
+                ...(search && { q: search }),
+                ...(sortBy && { sortBy }),
+                ...(order && { order }),
+            },
         });
 
         return {
@@ -37,7 +34,7 @@ export const getProducts = async ({
             data: response,
         };
     } catch (error) {
-        console.error('Error fetching products:', error);
+        console.error(error);
 
         return {
             success: false,
@@ -46,7 +43,6 @@ export const getProducts = async ({
         };
     }
 };
-
 
 export const getCategories = async () => {
     try {

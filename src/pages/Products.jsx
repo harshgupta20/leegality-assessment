@@ -46,6 +46,34 @@ const Products = () => {
     try {
       setLoading(true);
 
+      let sortBy = "";
+      let order = "";
+
+      switch (sort) {
+        case "price_asc":
+          sortBy = "price";
+          order = "asc";
+          break;
+
+        case "price_desc":
+          sortBy = "price";
+          order = "desc";
+          break;
+
+        case "title_asc":
+          sortBy = "title";
+          order = "asc";
+          break;
+
+        case "title_desc":
+          sortBy = "title";
+          order = "desc";
+          break;
+
+        default:
+          break;
+      }
+
       const result = await getProducts({
         limit: PRODUCTS_PER_PAGE,
         skip:
@@ -53,6 +81,8 @@ const Products = () => {
           PRODUCTS_PER_PAGE,
         category,
         search,
+        sortBy,
+        order,
       });
 
       if (result.success) {
@@ -65,7 +95,10 @@ const Products = () => {
         );
       }
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Error fetching products:",
+        error
+      );
     } finally {
       setLoading(false);
     }
@@ -80,7 +113,10 @@ const Products = () => {
         setCategories(result.data || []);
       }
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Error fetching categories:",
+        error
+      );
     }
   };
 
@@ -94,38 +130,8 @@ const Products = () => {
     currentPage,
     category,
     search,
+    sort,
   ]);
-
-  const sortedProducts = [...products];
-
-  switch (sort) {
-    case "price_asc":
-      sortedProducts.sort(
-        (a, b) => a.price - b.price
-      );
-      break;
-
-    case "price_desc":
-      sortedProducts.sort(
-        (a, b) => b.price - a.price
-      );
-      break;
-
-    case "title_asc":
-      sortedProducts.sort((a, b) =>
-        a.title.localeCompare(b.title)
-      );
-      break;
-
-    case "title_desc":
-      sortedProducts.sort((a, b) =>
-        b.title.localeCompare(a.title)
-      );
-      break;
-
-    default:
-      break;
-  }
 
   const handlePageChange = (page) => {
     const params =
@@ -240,11 +246,8 @@ const Products = () => {
                     className="bg-white rounded-3xl p-6 animate-pulse"
                   >
                     <div className="h-56 bg-gray-200 rounded-2xl" />
-
                     <div className="h-4 bg-gray-200 rounded mt-4" />
-
                     <div className="h-4 bg-gray-200 rounded mt-2 w-2/3" />
-
                     <div className="h-6 bg-gray-200 rounded mt-4 w-1/3" />
                   </div>
                 )
@@ -252,9 +255,8 @@ const Products = () => {
             </div>
           ) : (
             <>
-              {/* Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {sortedProducts.map(
+                {products.map(
                   (product) => (
                     <ProductDetailsCard
                       key={product.id}
@@ -287,15 +289,13 @@ const Products = () => {
                 )}
               </div>
 
-              {/* Empty State */}
-              {sortedProducts.length ===
+              {products.length ===
                 0 && (
                 <div className="text-center py-20 text-gray-500">
                   No products found
                 </div>
               )}
 
-              {/* Pagination */}
               {totalPages > 1 && (
                 <div className="flex justify-center gap-2 mt-12">
                   <button

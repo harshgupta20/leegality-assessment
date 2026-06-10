@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { getProductById } from "../api/products";
 import {
     FiShoppingCart,
@@ -15,6 +15,7 @@ const SingleProduct = () => {
     const [productDetails, setProductDetails] = useState(null);
     const [loading, setLoading] = useState(true);
     const [selectedImage, setSelectedImage] = useState("");
+    const navigation = useNavigate();
 
     const fetchProductDetails = async () => {
         try {
@@ -75,8 +76,11 @@ const SingleProduct = () => {
 
     return (
         <div className="">
-            <div className="max-w-7xl mx-auto px-4 py-10">
+            <div className="max-w-7xl mx-auto px-4">
                 {/* Product Section */}
+                <button onClick={() => navigation(-1)} className="mb-4 text-gray-500 hover:text-gray-700 cursor-pointer">
+                    &larr; Back
+                </button>
                 <div className="grid lg:grid-cols-2 gap-12 bg-white rounded-3xl p-8 shadow-sm">
                     {/* Left Side */}
                     <div>
@@ -97,8 +101,8 @@ const SingleProduct = () => {
                                         key={index}
                                         onClick={() => setSelectedImage(img)}
                                         className={`w-20 h-20 rounded-xl overflow-hidden border-2 ${selectedImage === img
-                                                ? "border-black"
-                                                : "border-gray-200"
+                                            ? "border-black"
+                                            : "border-gray-200"
                                             }`}
                                     >
                                         <img
@@ -180,8 +184,8 @@ const SingleProduct = () => {
                         <div className="mt-6">
                             <span
                                 className={`px-4 py-2 rounded-full text-sm font-medium ${productDetails.stock > 0
-                                        ? "bg-green-100 text-green-700"
-                                        : "bg-red-100 text-red-700"
+                                    ? "bg-green-100 text-green-700"
+                                    : "bg-red-100 text-red-700"
                                     }`}
                             >
                                 {productDetails.availabilityStatus}

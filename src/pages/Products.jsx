@@ -7,12 +7,21 @@ const Products = () => {
 
     const [products, setProducts] = useState([]);
 
+    const fetchProducts = async () => {
+        try {
+            const result = await getProducts();
+            if (result.success) {
+                setProducts(result.data?.products || []);
+            }
+            else {
+                throw new Error(result.message || 'Failed to fetch products');
+            }
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            const result = await getProducts();
-            setProducts(result.data?.products || []);
-        };
         fetchProducts();
     }, [])
 

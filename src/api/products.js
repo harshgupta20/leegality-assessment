@@ -13,3 +13,17 @@ export const getProducts = async () => {
         throw error;
     }
 };
+
+export const getProductById = async ({id}) => {
+    try {
+        const response = await api(`https://dummyjson.com/products/${id}`);
+        return {
+            success: true,
+            message : 'Product details fetched successfully',
+            data : response
+        };
+    } catch (error) {
+        console.error('Error fetching product details:', error);
+        throw error;
+    }
+};

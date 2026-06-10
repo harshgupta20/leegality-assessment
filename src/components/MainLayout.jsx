@@ -8,9 +8,10 @@ const MainLayout = ({ children }) => {
                 <nav className='w-full bg-gray-200 flex items-center'>
                     <Navbar />
                 </nav>
-
-                <div className='container mx-auto py-4'>
-                    {children}
+                <div className='bg-gray-50'>
+                    <div className='container bg-gray-50  mx-auto py-4'>
+                        {children}
+                    </div>
                 </div>
             </div>
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import Navbar from './Navbar'
+import Footer from './Footer'
 
 const MainLayout = ({ children }) => {
     return (
@@ -15,9 +16,7 @@ const MainLayout = ({ children }) => {
                 </div>
             </div>
 
-            <footer className='w-full bg-gray-200 p-4 text-center'>
-                <p>&copy; {new Date().getFullYear()} Leegality Shoppers Stop.</p>
-            </footer>
+            <Footer/>
         </div>
     )
 }

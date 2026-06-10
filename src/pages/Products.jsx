@@ -1,347 +1,360 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
-import { getProducts } from "../api/products";
+import {
+  getProducts,
+  getCategories,
+} from "../api/products";
+
 import LeftSidebar from "../components/LeftSidebar";
 import ProductDetailsCard from "../components/ProductDetailsCard";
 
 const PRODUCTS_PER_PAGE = 12;
 
 const Products = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] =
+    useSearchParams();
 
-    const [allProducts, setAllProducts] = useState([]);
-    const [loading, setLoading] = useState(false);
+  const [products, setProducts] =
+    useState([]);
 
-    const currentPage =
-        Number(searchParams.get("page")) || 1;
+  const [categories, setCategories] =
+    useState([]);
 
-    const category =
-        searchParams.get("category") || "";
+  const [totalProducts, setTotalProducts] =
+    useState(0);
 
-    const brand =
-        searchParams.get("brand") || "";
+  const [loading, setLoading] =
+    useState(false);
 
-    const rating =
-        Number(searchParams.get("rating")) || 0;
+  const currentPage =
+    Number(searchParams.get("page")) || 1;
 
-    const minPriceParam =
-        searchParams.get("minPrice");
+  const category =
+    searchParams.get("category") || "";
 
-    const minPrice =
-        minPriceParam !== null &&
-            minPriceParam !== ""
-            ? parseFloat(minPriceParam)
-            : 0;
+  const search =
+    searchParams.get("q") || "";
 
-    const maxPriceParam =
-        searchParams.get("maxPrice");
+  const sort =
+    searchParams.get("sort") || "";
 
-    const maxPrice =
-        maxPriceParam !== null &&
-            maxPriceParam !== ""
-            ? parseFloat(maxPriceParam)
-            : Infinity;
+  const totalPages = Math.ceil(
+    totalProducts / PRODUCTS_PER_PAGE
+  );
 
-    const inStock =
-        searchParams.get("inStock") === "true";
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
 
-    const sort =
-        searchParams.get("sort") || "";
-
-    const fetchProducts = async () => {
-        try {
-            setLoading(true);
-
-            const result = await getProducts({
-                limit: 500,
-                skip: 0,
-            });
-
-            if (result.success) {
-                setAllProducts(
-                    result.data?.products || []
-                );
-            }
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchProducts();
-    }, []);
-
-    const filteredProducts = useMemo(() => {
-        let filtered = [...allProducts];
-
-        if (category) {
-            filtered = filtered.filter(
-                (product) =>
-                    product.category === category
-            );
-        }
-
-        if (brand) {
-            filtered = filtered.filter(
-                (product) => product.brand === brand
-            );
-        }
-
-        if (rating) {
-            filtered = filtered.filter(
-                (product) =>
-                    product.rating >= rating
-            );
-        }
-
-        if (minPrice) {
-            filtered = filtered.filter(
-                (product) =>
-                    product.price >= minPrice
-            );
-        }
-
-        if (maxPrice !== Infinity) {
-            filtered = filtered.filter(
-                (product) =>
-                    product.price <= maxPrice
-            );
-        }
-
-        if (inStock === true) {
-            filtered = filtered.filter(
-                (product) =>
-                    product.stock > 0 &&
-                    product.availabilityStatus !==
-                    "Out of Stock"
-            );
-        }
-
-        switch (sort) {
-            case "price_asc":
-                filtered.sort(
-                    (a, b) => a.price - b.price
-                );
-                break;
-
-            case "price_desc":
-                filtered.sort(
-                    (a, b) => b.price - a.price
-                );
-                break;
-
-            case "rating_desc":
-                filtered.sort(
-                    (a, b) => b.rating - a.rating
-                );
-                break;
-
-            case "discount_desc":
-                filtered.sort(
-                    (a, b) =>
-                        b.discountPercentage -
-                        a.discountPercentage
-                );
-                break;
-
-            default:
-                break;
-        }
-
-        return filtered;
-    }, [
-        allProducts,
+      const result = await getProducts({
+        limit: PRODUCTS_PER_PAGE,
+        skip:
+          (currentPage - 1) *
+          PRODUCTS_PER_PAGE,
         category,
-        brand,
-        rating,
-        minPrice,
-        maxPrice,
-        inStock,
-        sort,
-    ]);
+        search,
+      });
 
-    const totalProducts =
-        filteredProducts.length;
-
-    const totalPages = Math.ceil(
-        totalProducts / PRODUCTS_PER_PAGE
-    );
-
-    const paginatedProducts =
-        filteredProducts.slice(
-            (currentPage - 1) *
-            PRODUCTS_PER_PAGE,
-            currentPage * PRODUCTS_PER_PAGE
+      if (result.success) {
+        setProducts(
+          result.data?.products || []
         );
 
-    const handlePageChange = (page) => {
-        const params = new URLSearchParams(
-            searchParams
+        setTotalProducts(
+          result.data?.total || 0
         );
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        params.set("page", page);
+  const fetchCategories = async () => {
+    try {
+      const result =
+        await getCategories();
 
-        setSearchParams(params);
+      if (result.success) {
+        setCategories(result.data || []);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
-    };
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
-    const getVisiblePages = () => {
-        const pages = [];
+  useEffect(() => {
+    fetchProducts();
+  }, [
+    currentPage,
+    category,
+    search,
+  ]);
 
-        const start = Math.max(
-            1,
-            currentPage - 2
-        );
+  const sortedProducts = [...products];
 
-        const end = Math.min(
-            totalPages,
-            currentPage + 2
-        );
+  switch (sort) {
+    case "price_asc":
+      sortedProducts.sort(
+        (a, b) => a.price - b.price
+      );
+      break;
 
-        for (
-            let i = start;
-            i <= end;
-            i++
-        ) {
-            pages.push(i);
-        }
+    case "price_desc":
+      sortedProducts.sort(
+        (a, b) => b.price - a.price
+      );
+      break;
 
-        return pages;
-    };
+    case "title_asc":
+      sortedProducts.sort((a, b) =>
+        a.title.localeCompare(b.title)
+      );
+      break;
 
-    return (
-        <div className="max-w-7xl mx-auto px-4 py-8">
-            <div className="mb-8">
-                <h1 className="text-4xl font-bold">
-                    Products
-                </h1>
+    case "title_desc":
+      sortedProducts.sort((a, b) =>
+        b.title.localeCompare(a.title)
+      );
+      break;
 
-                <p className="text-gray-500 mt-2">
-                    Showing {totalProducts} products
-                </p>
-            </div>
+    default:
+      break;
+  }
 
-            <div className="flex gap-8">
-                <div className="hidden lg:block w-1/4">
-                    <div className="sticky top-6 bg-white rounded-3xl p-5 border border-gray-100">
-                        <LeftSidebar
-                            products={allProducts}
-                            searchParams={searchParams}
-                            setSearchParams={
-                                setSearchParams
-                            }
-                        />
-                    </div>
-                </div>
+  const handlePageChange = (page) => {
+    const params =
+      new URLSearchParams(
+        searchParams
+      );
 
-                <div className="w-full lg:w-3/4">
-                    {loading ? (
-                        <div>Loading...</div>
-                    ) : (
-                        <>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                                {paginatedProducts.map(
-                                    (product) => (
-                                        <ProductDetailsCard
-                                            key={product.id}
-                                            productId={product.id}
-                                            productThumbnail={
-                                                product.thumbnail
-                                            }
-                                            productTitle={
-                                                product.title
-                                            }
-                                            productPrice={
-                                                product.price
-                                            }
-                                            productCategory={
-                                                product.category
-                                            }
-                                            productRating={
-                                                product.rating
-                                            }
-                                            productDiscount={
-                                                product.discountPercentage
-                                            }
-                                            productStock={
-                                                product.stock
-                                            }
-                                        />
-                                    )
-                                )}
-                            </div>
+    params.set("page", page);
 
-                            {paginatedProducts.length ===
-                                0 && (
-                                    <div className="text-center py-20">
-                                        No products found.
-                                    </div>
-                                )}
+    setSearchParams(params);
 
-                            {totalPages > 1 && (
-                                <div className="flex justify-center gap-2 mt-12">
-                                    <button
-                                        disabled={
-                                            currentPage === 1
-                                        }
-                                        onClick={() =>
-                                            handlePageChange(
-                                                currentPage - 1
-                                            )
-                                        }
-                                        className="px-4 py-2 border rounded-xl"
-                                    >
-                                        Previous
-                                    </button>
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
-                                    {getVisiblePages().map(
-                                        (page) => (
-                                            <button
-                                                key={page}
-                                                onClick={() =>
-                                                    handlePageChange(
-                                                        page
-                                                    )
-                                                }
-                                                className={`h-10 w-10 rounded-xl ${currentPage ===
-                                                    page
-                                                    ? "bg-black text-white"
-                                                    : "border"
-                                                    }`}
-                                            >
-                                                {page}
-                                            </button>
-                                        )
-                                    )}
+  const visiblePages = Array.from(
+    {
+      length: Math.min(
+        totalPages,
+        5
+      ),
+    },
+    (_, index) =>
+      Math.max(
+        1,
+        currentPage - 2
+      ) + index
+  ).filter(
+    (page) => page <= totalPages
+  );
 
-                                    <button
-                                        disabled={
-                                            currentPage ===
-                                            totalPages
-                                        }
-                                        onClick={() =>
-                                            handlePageChange(
-                                                currentPage + 1
-                                            )
-                                        }
-                                        className="px-4 py-2 border rounded-xl"
-                                    >
-                                        Next
-                                    </button>
-                                </div>
-                            )}
-                        </>
-                    )}
-                </div>
-            </div>
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold">
+          Products
+        </h1>
+
+        <p className="text-gray-500 mt-2">
+          Showing {totalProducts} products
+        </p>
+      </div>
+
+      {/* Search */}
+      <div className="mb-8">
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={
+            searchParams.get("q") || ""
+          }
+          onChange={(e) => {
+            const params =
+              new URLSearchParams(
+                searchParams
+              );
+
+            if (e.target.value) {
+              params.set(
+                "q",
+                e.target.value
+              );
+            } else {
+              params.delete("q");
+            }
+
+            params.set("page", "1");
+
+            setSearchParams(params);
+          }}
+          className="
+            w-full
+            h-14
+            px-5
+            rounded-2xl
+            border
+            border-gray-200
+            focus:outline-none
+            focus:ring-2
+            focus:ring-blue-500
+          "
+        />
+      </div>
+
+      <div className="flex gap-8">
+        {/* Sidebar */}
+        <div className="hidden lg:block w-1/4">
+          <div className="sticky top-6 bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+            <LeftSidebar
+              categories={categories}
+              searchParams={
+                searchParams
+              }
+              setSearchParams={
+                setSearchParams
+              }
+            />
+          </div>
         </div>
-    );
+
+        {/* Products */}
+        <div className="w-full lg:w-3/4">
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              {[...Array(6)].map(
+                (_, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-3xl p-6 animate-pulse"
+                  >
+                    <div className="h-56 bg-gray-200 rounded-2xl" />
+
+                    <div className="h-4 bg-gray-200 rounded mt-4" />
+
+                    <div className="h-4 bg-gray-200 rounded mt-2 w-2/3" />
+
+                    <div className="h-6 bg-gray-200 rounded mt-4 w-1/3" />
+                  </div>
+                )
+              )}
+            </div>
+          ) : (
+            <>
+              {/* Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                {sortedProducts.map(
+                  (product) => (
+                    <ProductDetailsCard
+                      key={product.id}
+                      productId={
+                        product.id
+                      }
+                      productThumbnail={
+                        product.thumbnail
+                      }
+                      productTitle={
+                        product.title
+                      }
+                      productPrice={
+                        product.price
+                      }
+                      productCategory={
+                        product.category
+                      }
+                      productRating={
+                        product.rating
+                      }
+                      productDiscount={
+                        product.discountPercentage
+                      }
+                      productStock={
+                        product.stock
+                      }
+                    />
+                  )
+                )}
+              </div>
+
+              {/* Empty State */}
+              {sortedProducts.length ===
+                0 && (
+                <div className="text-center py-20 text-gray-500">
+                  No products found
+                </div>
+              )}
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="flex justify-center gap-2 mt-12">
+                  <button
+                    disabled={
+                      currentPage === 1
+                    }
+                    onClick={() =>
+                      handlePageChange(
+                        currentPage - 1
+                      )
+                    }
+                    className="px-4 py-2 border rounded-xl disabled:opacity-40"
+                  >
+                    Previous
+                  </button>
+
+                  {visiblePages.map(
+                    (page) => (
+                      <button
+                        key={page}
+                        onClick={() =>
+                          handlePageChange(
+                            page
+                          )
+                        }
+                        className={`h-10 w-10 rounded-xl transition ${
+                          currentPage ===
+                          page
+                            ? "bg-blue-600 text-white"
+                            : "border hover:bg-gray-100"
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    )
+                  )}
+
+                  <button
+                    disabled={
+                      currentPage ===
+                      totalPages
+                    }
+                    onClick={() =>
+                      handlePageChange(
+                        currentPage + 1
+                      )
+                    }
+                    className="px-4 py-2 border rounded-xl disabled:opacity-40"
+                  >
+                    Next
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Products;

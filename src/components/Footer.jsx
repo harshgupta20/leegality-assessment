@@ -9,7 +9,7 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <h3 className="text-xl font-bold">
-              🛍️ Leegality Store
+              🛍️ Leegality Assessment
             </h3>
 
             <p className="mt-4 text-gray-600 text-sm leading-relaxed">

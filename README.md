@@ -1,4 +1,4 @@
-# 🛍️ Leegality Store 
+# 🛍️ Leegality Assessment 
  
 A modern ecommerce frontend built with React, React Router, Axios and Tailwind CSS.
  

@@ -19,7 +19,7 @@ const Navbar = () => {
           to="/"
           className="text-xl font-bold tracking-tight"
         >
-          🛍️ Leegality Store
+          🛍️ Leegality Assessment
         </Link>
 
         {/* Navigation */}

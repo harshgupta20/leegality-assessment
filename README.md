@@ -1,13 +1,13 @@
-# 🛍️ Leegality Assessment 
- 
-A modern ecommerce frontend built with React, React Router, Axios and Tailwind CSS.
- 
-🌐 Live Demo: https://leegality-assessment.web.app/ 
- 
----
- 
-## ✨ Features 
- 
+# 🛍️ Leegality Store
+
+A modern ecommerce frontend built using React, React Router, Axios and Tailwind CSS.
+
+## Demo
+
+Live Demo: https://leegality-assessment.web.app/
+
+## Features
+
 - Product Listing
 - Product Details Page
 - Search Products
@@ -17,40 +17,144 @@ A modern ecommerce frontend built with React, React Router, Axios and Tailwind C
 - URL State Persistence
 - Responsive Design
 - Loading States
- 
----
- 
-## 📸 Screenshots 
- 
-### Home Page 
-<img width="1848" height="1091" alt="image" src="https://github.com/user-attachments/assets/7a64731f-f5e3-4300-ad66-a4ceaf506448" />
- 
-### Products Page 
-<img width="1848" height="1091" alt="image" src="https://github.com/user-attachments/assets/dd721bcf-e57f-4677-83e9-2f5e5a8a0c86" />
- 
-### Product Details 
-<img width="1848" height="1091" alt="image" src="https://github.com/user-attachments/assets/abd687fc-0abc-45fc-9b69-d71630cfb68d" />
+- Architecture Showcase Page
 
-### Architecture Page 
-<img width="1848" height="1091" alt="image" src="https://github.com/user-attachments/assets/81c7af8d-801c-4b97-b256-5cd28241b7c6" />
-
- 
 ---
- 
-## 🏗️ Tech Stack 
- 
+
+## Setup Instructions
+
+### Clone Repository
+
+```bash
+git clone <repository-url>
+```
+
+### Install Dependencies
+
+```bash
+npm install
+```
+
+### Start Development Server
+
+```bash
+npm run dev
+```
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+---
+
+## Tech Stack
+
 - React
 - React Router
 - Axios
 - Tailwind CSS
 - DummyJSON API
 - Firebase Hosting
- 
+
 ---
- 
-## 📂 Project Structure 
- 
+
+## Assumptions Made
+
+- DummyJSON API is the backend source of truth.
+- Product filtering, searching and pagination should be API-driven whenever supported.
+- User authentication and checkout flows are out of scope because backend support is unavailable.
+- Cart functionality is considered client-side for this assessment.
+- Performance and scalability were prioritized over implementing unsupported filters locally.
+
+---
+
+## Architectural Decisions
+
+### API-Driven Data Fetching
+
+Instead of downloading all products and filtering on the frontend, filtering, searching and pagination are delegated to the API whenever possible.
+
+Benefits:
+
+- Better scalability
+- Reduced network payload
+- Faster rendering
+- Production-oriented approach
+
+### URL State Persistence
+
+Search, filters and pagination are stored in URL query parameters.
+
+Example:
+
+```text
+/products?page=2&category=beauty
 ```
+
+Benefits:
+
+- Refresh-safe
+- Shareable URLs
+- Better navigation experience
+
+### Component-Based Architecture
+
+The application is structured using reusable components:
+
+```text
+Navbar
+LeftSidebar
+ProductDetailsCard
+MainLayout
+```
+
+This improves maintainability and future scalability.
+
+### Centralized API Layer
+
+All API communication is abstracted inside the `api` folder to keep UI components focused on presentation and business logic.
+
+---
+
+## Improvements With More Time
+
+### Product Features
+
+- Wishlist
+- Recently Viewed Products
+- Product Recommendations
+- Product Reviews & Ratings
+
+### Ecommerce Features
+
+- Checkout Flow
+- Payment Gateway Integration
+- Order Tracking
+- Coupon System
+
+### User Features
+
+- Authentication
+- User Profiles
+- Saved Addresses
+- Order History
+
+### Technical Improvements
+
+- Search Debouncing
+- React Query / TanStack Query
+- Product Caching
+- Unit & Integration Tests
+- Error Boundary Implementation
+- Infinite Scrolling Option
+
+---
+
+## Project Structure
+
+```text
 src
 ├── api
 ├── components
@@ -61,44 +165,13 @@ src
 ├── App.jsx
 └── main.jsx
 ```
- 
+
 ---
- 
-## ⚙️ Engineering Decisions 
- 
-- API-driven Pagination
-- API-driven Search
-- API-driven Filtering
-- URL-based State Management
-- Reusable Component Architecture
-- Centralized API Layer
- 
----
- 
-## 🚀 Future Enhancements 
- 
-- Authentication
-- Wishlist
-- Checkout & Payments
-- Order Management
-- Admin Dashboard
-- Product Recommendations
-- Analytics Dashboard
- 
----
- 
-## 🛠️ Installation 
- 
-```bash
-npm install
-npm run dev
-```
- 
----
- 
-## 👨‍💻 Author 
- 
+
+## Author
+
 Harsh Gupta
+
 Frontend Engineer
- 
+
 Built for the Leegality Frontend Engineering Assessment.

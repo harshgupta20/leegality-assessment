@@ -23,16 +23,17 @@ A modern ecommerce frontend built with React, React Router, Axios and Tailwind C
 ## 📸 Screenshots 
  
 ### Home Page 
-![Home](./screenshots/home.png)
+<img width="1848" height="1091" alt="image" src="https://github.com/user-attachments/assets/7a64731f-f5e3-4300-ad66-a4ceaf506448" />
  
 ### Products Page 
-![Products](./screenshots/products.png)
+<img width="1848" height="1091" alt="image" src="https://github.com/user-attachments/assets/dd721bcf-e57f-4677-83e9-2f5e5a8a0c86" />
  
 ### Product Details 
-![Product Details](./screenshots/product-details.png)
- 
+<img width="1848" height="1091" alt="image" src="https://github.com/user-attachments/assets/abd687fc-0abc-45fc-9b69-d71630cfb68d" />
+
 ### Architecture Page 
-![Architecture](./screenshots/architecture.png)
+<img width="1848" height="1091" alt="image" src="https://github.com/user-attachments/assets/81c7af8d-801c-4b97-b256-5cd28241b7c6" />
+
  
 ---
  

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 
 const Navbar = () => {
 
@@ -17,7 +18,7 @@ const Navbar = () => {
             <ul className='flex space-x-4'>
                 {menuOptions.map((option, index) => (
                     <li key={index}>
-                        <a href={option.link}>{option.name}</a>
+                        <Link to={option.link}>{option.name}</Link>
                     </li>
                 ))}
             </ul>

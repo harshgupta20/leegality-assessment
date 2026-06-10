@@ -1,8 +1,13 @@
 import { api } from "../utils/axiosInstance";
 
-export const getProducts = async () => {
+export const getProducts = async ({ limit, skip }) => {
     try {
-        const response = await api('https://dummyjson.com/products');
+        const response = await api('https://dummyjson.com/products', {
+            params: {
+                limit,
+                skip
+            }
+        });
         return {
             success: true,
             message : 'Products fetched successfully',

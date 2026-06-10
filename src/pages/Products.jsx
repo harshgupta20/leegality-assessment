@@ -7,328 +7,341 @@ import ProductDetailsCard from "../components/ProductDetailsCard";
 const PRODUCTS_PER_PAGE = 12;
 
 const Products = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
-  const [allProducts, setAllProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
+    const [allProducts, setAllProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-  const currentPage =
-    Number(searchParams.get("page")) || 1;
+    const currentPage =
+        Number(searchParams.get("page")) || 1;
 
-  const category =
-    searchParams.get("category") || "";
+    const category =
+        searchParams.get("category") || "";
 
-  const brand =
-    searchParams.get("brand") || "";
+    const brand =
+        searchParams.get("brand") || "";
 
-  const rating =
-    Number(searchParams.get("rating")) || 0;
+    const rating =
+        Number(searchParams.get("rating")) || 0;
 
-  const minPrice =
-    Number(searchParams.get("minPrice")) || 0;
+    const minPriceParam =
+        searchParams.get("minPrice");
 
-  const maxPrice =
-    Number(searchParams.get("maxPrice")) ||
-    Infinity;
+    const minPrice =
+        minPriceParam !== null &&
+            minPriceParam !== ""
+            ? parseFloat(minPriceParam)
+            : 0;
 
-  const inStock =
-    searchParams.get("inStock") === "true";
+    const maxPriceParam =
+        searchParams.get("maxPrice");
 
-  const sort =
-    searchParams.get("sort") || "";
+    const maxPrice =
+        maxPriceParam !== null &&
+            maxPriceParam !== ""
+            ? parseFloat(maxPriceParam)
+            : Infinity;
 
-  const fetchProducts = async () => {
-    try {
-      setLoading(true);
+    const inStock =
+        searchParams.get("inStock") === "true";
 
-      const result = await getProducts({
-        limit: 500,
-        skip: 0,
-      });
+    const sort =
+        searchParams.get("sort") || "";
 
-      if (result.success) {
-        setAllProducts(
-          result.data?.products || []
-        );
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchProducts = async () => {
+        try {
+            setLoading(true);
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+            const result = await getProducts({
+                limit: 500,
+                skip: 0,
+            });
 
-  const filteredProducts = useMemo(() => {
-    let filtered = [...allProducts];
+            if (result.success) {
+                setAllProducts(
+                    result.data?.products || []
+                );
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    if (category) {
-      filtered = filtered.filter(
-        (product) =>
-          product.category === category
-      );
-    }
+    useEffect(() => {
+        fetchProducts();
+    }, []);
 
-    if (brand) {
-      filtered = filtered.filter(
-        (product) => product.brand === brand
-      );
-    }
+    const filteredProducts = useMemo(() => {
+        let filtered = [...allProducts];
 
-    if (rating) {
-      filtered = filtered.filter(
-        (product) =>
-          product.rating >= rating
-      );
-    }
+        if (category) {
+            filtered = filtered.filter(
+                (product) =>
+                    product.category === category
+            );
+        }
 
-    if (minPrice) {
-      filtered = filtered.filter(
-        (product) =>
-          product.price >= minPrice
-      );
-    }
+        if (brand) {
+            filtered = filtered.filter(
+                (product) => product.brand === brand
+            );
+        }
 
-    if (maxPrice !== Infinity) {
-      filtered = filtered.filter(
-        (product) =>
-          product.price <= maxPrice
-      );
-    }
+        if (rating) {
+            filtered = filtered.filter(
+                (product) =>
+                    product.rating >= rating
+            );
+        }
 
-    if (inStock) {
-      filtered = filtered.filter(
-        (product) => product.stock > 0
-      );
-    }
+        if (minPrice) {
+            filtered = filtered.filter(
+                (product) =>
+                    product.price >= minPrice
+            );
+        }
 
-    switch (sort) {
-      case "price_asc":
-        filtered.sort(
-          (a, b) => a.price - b.price
-        );
-        break;
+        if (maxPrice !== Infinity) {
+            filtered = filtered.filter(
+                (product) =>
+                    product.price <= maxPrice
+            );
+        }
 
-      case "price_desc":
-        filtered.sort(
-          (a, b) => b.price - a.price
-        );
-        break;
+        if (inStock === true) {
+            filtered = filtered.filter(
+                (product) =>
+                    product.stock > 0 &&
+                    product.availabilityStatus !==
+                    "Out of Stock"
+            );
+        }
 
-      case "rating_desc":
-        filtered.sort(
-          (a, b) => b.rating - a.rating
-        );
-        break;
+        switch (sort) {
+            case "price_asc":
+                filtered.sort(
+                    (a, b) => a.price - b.price
+                );
+                break;
 
-      case "discount_desc":
-        filtered.sort(
-          (a, b) =>
-            b.discountPercentage -
-            a.discountPercentage
-        );
-        break;
+            case "price_desc":
+                filtered.sort(
+                    (a, b) => b.price - a.price
+                );
+                break;
 
-      default:
-        break;
-    }
+            case "rating_desc":
+                filtered.sort(
+                    (a, b) => b.rating - a.rating
+                );
+                break;
 
-    return filtered;
-  }, [
-    allProducts,
-    category,
-    brand,
-    rating,
-    minPrice,
-    maxPrice,
-    inStock,
-    sort,
-  ]);
+            case "discount_desc":
+                filtered.sort(
+                    (a, b) =>
+                        b.discountPercentage -
+                        a.discountPercentage
+                );
+                break;
 
-  const totalProducts =
-    filteredProducts.length;
+            default:
+                break;
+        }
 
-  const totalPages = Math.ceil(
-    totalProducts / PRODUCTS_PER_PAGE
-  );
+        return filtered;
+    }, [
+        allProducts,
+        category,
+        brand,
+        rating,
+        minPrice,
+        maxPrice,
+        inStock,
+        sort,
+    ]);
 
-  const paginatedProducts =
-    filteredProducts.slice(
-      (currentPage - 1) *
-        PRODUCTS_PER_PAGE,
-      currentPage * PRODUCTS_PER_PAGE
+    const totalProducts =
+        filteredProducts.length;
+
+    const totalPages = Math.ceil(
+        totalProducts / PRODUCTS_PER_PAGE
     );
 
-  const handlePageChange = (page) => {
-    const params = new URLSearchParams(
-      searchParams
-    );
+    const paginatedProducts =
+        filteredProducts.slice(
+            (currentPage - 1) *
+            PRODUCTS_PER_PAGE,
+            currentPage * PRODUCTS_PER_PAGE
+        );
 
-    params.set("page", page);
+    const handlePageChange = (page) => {
+        const params = new URLSearchParams(
+            searchParams
+        );
 
-    setSearchParams(params);
+        params.set("page", page);
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+        setSearchParams(params);
 
-  const getVisiblePages = () => {
-    const pages = [];
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+    };
 
-    const start = Math.max(
-      1,
-      currentPage - 2
-    );
+    const getVisiblePages = () => {
+        const pages = [];
 
-    const end = Math.min(
-      totalPages,
-      currentPage + 2
-    );
+        const start = Math.max(
+            1,
+            currentPage - 2
+        );
 
-    for (
-      let i = start;
-      i <= end;
-      i++
-    ) {
-      pages.push(i);
-    }
+        const end = Math.min(
+            totalPages,
+            currentPage + 2
+        );
 
-    return pages;
-  };
+        for (
+            let i = start;
+            i <= end;
+            i++
+        ) {
+            pages.push(i);
+        }
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold">
-          Products
-        </h1>
+        return pages;
+    };
 
-        <p className="text-gray-500 mt-2">
-          Showing {totalProducts} products
-        </p>
-      </div>
+    return (
+        <div className="max-w-7xl mx-auto px-4 py-8">
+            <div className="mb-8">
+                <h1 className="text-4xl font-bold">
+                    Products
+                </h1>
 
-      <div className="flex gap-8">
-        <div className="hidden lg:block w-1/4">
-          <div className="sticky top-6 bg-white rounded-3xl p-5 border border-gray-100">
-            <LeftSidebar
-              products={allProducts}
-              searchParams={searchParams}
-              setSearchParams={
-                setSearchParams
-              }
-            />
-          </div>
-        </div>
+                <p className="text-gray-500 mt-2">
+                    Showing {totalProducts} products
+                </p>
+            </div>
 
-        <div className="w-full lg:w-3/4">
-          {loading ? (
-            <div>Loading...</div>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                {paginatedProducts.map(
-                  (product) => (
-                    <ProductDetailsCard
-                      key={product.id}
-                      productId={product.id}
-                      productThumbnail={
-                        product.thumbnail
-                      }
-                      productTitle={
-                        product.title
-                      }
-                      productPrice={
-                        product.price
-                      }
-                      productCategory={
-                        product.category
-                      }
-                      productRating={
-                        product.rating
-                      }
-                      productDiscount={
-                        product.discountPercentage
-                      }
-                      productStock={
-                        product.stock
-                      }
-                    />
-                  )
-                )}
-              </div>
-
-              {paginatedProducts.length ===
-                0 && (
-                <div className="text-center py-20">
-                  No products found.
+            <div className="flex gap-8">
+                <div className="hidden lg:block w-1/4">
+                    <div className="sticky top-6 bg-white rounded-3xl p-5 border border-gray-100">
+                        <LeftSidebar
+                            products={allProducts}
+                            searchParams={searchParams}
+                            setSearchParams={
+                                setSearchParams
+                            }
+                        />
+                    </div>
                 </div>
-              )}
 
-              {totalPages > 1 && (
-                <div className="flex justify-center gap-2 mt-12">
-                  <button
-                    disabled={
-                      currentPage === 1
-                    }
-                    onClick={() =>
-                      handlePageChange(
-                        currentPage - 1
-                      )
-                    }
-                    className="px-4 py-2 border rounded-xl"
-                  >
-                    Previous
-                  </button>
+                <div className="w-full lg:w-3/4">
+                    {loading ? (
+                        <div>Loading...</div>
+                    ) : (
+                        <>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                                {paginatedProducts.map(
+                                    (product) => (
+                                        <ProductDetailsCard
+                                            key={product.id}
+                                            productId={product.id}
+                                            productThumbnail={
+                                                product.thumbnail
+                                            }
+                                            productTitle={
+                                                product.title
+                                            }
+                                            productPrice={
+                                                product.price
+                                            }
+                                            productCategory={
+                                                product.category
+                                            }
+                                            productRating={
+                                                product.rating
+                                            }
+                                            productDiscount={
+                                                product.discountPercentage
+                                            }
+                                            productStock={
+                                                product.stock
+                                            }
+                                        />
+                                    )
+                                )}
+                            </div>
 
-                  {getVisiblePages().map(
-                    (page) => (
-                      <button
-                        key={page}
-                        onClick={() =>
-                          handlePageChange(
-                            page
-                          )
-                        }
-                        className={`h-10 w-10 rounded-xl ${
-                          currentPage ===
-                          page
-                            ? "bg-black text-white"
-                            : "border"
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    )
-                  )}
+                            {paginatedProducts.length ===
+                                0 && (
+                                    <div className="text-center py-20">
+                                        No products found.
+                                    </div>
+                                )}
 
-                  <button
-                    disabled={
-                      currentPage ===
-                      totalPages
-                    }
-                    onClick={() =>
-                      handlePageChange(
-                        currentPage + 1
-                      )
-                    }
-                    className="px-4 py-2 border rounded-xl"
-                  >
-                    Next
-                  </button>
+                            {totalPages > 1 && (
+                                <div className="flex justify-center gap-2 mt-12">
+                                    <button
+                                        disabled={
+                                            currentPage === 1
+                                        }
+                                        onClick={() =>
+                                            handlePageChange(
+                                                currentPage - 1
+                                            )
+                                        }
+                                        className="px-4 py-2 border rounded-xl"
+                                    >
+                                        Previous
+                                    </button>
+
+                                    {getVisiblePages().map(
+                                        (page) => (
+                                            <button
+                                                key={page}
+                                                onClick={() =>
+                                                    handlePageChange(
+                                                        page
+                                                    )
+                                                }
+                                                className={`h-10 w-10 rounded-xl ${currentPage ===
+                                                    page
+                                                    ? "bg-black text-white"
+                                                    : "border"
+                                                    }`}
+                                            >
+                                                {page}
+                                            </button>
+                                        )
+                                    )}
+
+                                    <button
+                                        disabled={
+                                            currentPage ===
+                                            totalPages
+                                        }
+                                        onClick={() =>
+                                            handlePageChange(
+                                                currentPage + 1
+                                            )
+                                        }
+                                        className="px-4 py-2 border rounded-xl"
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                            )}
+                        </>
+                    )}
                 </div>
-              )}
-            </>
-          )}
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Products;

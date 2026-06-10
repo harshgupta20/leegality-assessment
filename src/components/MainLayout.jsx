@@ -9,13 +9,13 @@ const MainLayout = ({ children }) => {
                     <Navbar />
                 </nav>
 
-                <div>
+                <div className='container mx-auto py-4'>
                     {children}
                 </div>
             </div>
 
             <footer className='w-full bg-gray-200 p-4 text-center'>
-                <p>&copy; 2023 Leegality Shoppers Stop. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} Leegality Shoppers Stop.</p>
             </footer>
         </div>
     )
